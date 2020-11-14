@@ -1,20 +1,12 @@
 package com.dbulawa.calendar.authorization
 
 import android.app.Activity
-import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
-import com.dbulawa.calendar.ui.main.MainFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
-import com.google.android.gms.tasks.Task
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import java.util.*
 import javax.inject.Inject
 

@@ -1,6 +1,7 @@
 package com.dbulawa.calendar.module
 
 import android.app.Activity
+import com.dbulawa.calendar.R
 import com.dbulawa.calendar.authorization.GoogleAuthService
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -9,10 +10,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.FragmentComponent
+import javax.inject.Named
 
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(FragmentComponent::class)
 class MainModule {
 
     @Provides
@@ -26,4 +29,15 @@ class MainModule {
     }
 
 
+    @Provides
+    @Named("DaysOfTheWeek")
+    fun daysOfTheWeek(activity: Activity) : Array<String>{
+        return activity.resources.getStringArray(R.array.DaysOfTheWeekRes)
+    }
+
+    @Provides
+    @Named("MonthsOfTheYear")
+    fun monthsOfTheYear(activity: Activity) : Array<String>{
+        return activity.resources.getStringArray(R.array.MonthsOfTheYearRes)
+    }
 }
