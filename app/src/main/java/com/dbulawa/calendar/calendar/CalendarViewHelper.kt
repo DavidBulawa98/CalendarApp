@@ -4,9 +4,9 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.dbulawa.calendar.R
-import com.dbulawa.calendar.ui.main.MainViewModel
+import com.dbulawa.calendar.ui.main.calendar.CalendarViewModel
 import com.kizitonwose.calendarview.CalendarView
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.ui.DayBinder
@@ -22,8 +22,8 @@ class CalendarViewHelper @Inject constructor(
 
     @Inject @Named("MonthsOfTheYear") lateinit var monthsOfTheYear: Array<String>
 
-
-    private val viewModel: MainViewModel = ViewModelProviders.of(fragment).get(MainViewModel::class.java)
+    private val viewModel: CalendarViewModel by lazy { ViewModelProvider(fragment).get(
+        CalendarViewModel::class.java) }
     val currentMonth = YearMonth.now()
     val firstMonth = currentMonth.minusMonths(10)
     val lastMonth = currentMonth.plusMonths(10)

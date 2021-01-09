@@ -38,5 +38,4 @@ class DayOfTheWeekAdapter @Inject constructor(
             dayOfTheWeek = itemView.findViewById(R.id.day_of_week)
         }
     }
-
 }

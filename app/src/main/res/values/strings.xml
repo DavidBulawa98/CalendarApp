@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Calendar</string>
+    <string name="title">Title</string>
+    <string name="create_new_event">Create new event</string>
+    <string name="desc">Description</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
 
     <string-array name="DaysOfTheWeekRes">
         <item>Mo</item>

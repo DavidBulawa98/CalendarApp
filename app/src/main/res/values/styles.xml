@@ -8,4 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingVertical">5dp</item>
+        <item name="background">@drawable/gradient</item>
+    </style>
+
+    <style name="AppTheme.EditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.EditTextWrap" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/colorLight</item>
+    </style>
 </resources>

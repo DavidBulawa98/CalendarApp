@@ -1,4 +1,4 @@
-package com.dbulawa.calendar.ui.main
+package com.dbulawa.calendar.ui.main.calendar
 
 import android.os.Bundle
 import android.view.LayoutInflater

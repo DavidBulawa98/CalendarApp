@@ -1,8 +1,12 @@
 package com.dbulawa.calendar
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.dbulawa.calendar.ui.main.eventdetail.EventDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -10,10 +14,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                    .replace(R.id.container, MainFragment())
-//                    .commitNow()
-//        }
+
+        initFab()
+    }
+
+    private fun initFab(){
+        val fab: View = findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            startActivity(Intent(this, EventDetailActivity::class.java))
+        }
     }
 }
