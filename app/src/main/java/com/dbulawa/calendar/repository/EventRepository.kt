@@ -14,18 +14,32 @@ import javax.inject.Inject
 class EventRepository @Inject constructor(
     private val eventDao: EventDao
 ) {
-    var events : MutableLiveData<List<Event>> = MutableLiveData()
+    var activeDay: MutableLiveData<Date> = MutableLiveData()
+    var events : LiveData<List<Event>> = Transformations.switchMap(activeDay) {
+        convertList(eventDao.getEventsByDay(it))
+    }
+
     suspend fun insertEvent(event: Event){
-        eventDao.insertEvent(convert(event))
+        withContext(Dispatchers.IO) {
+            eventDao.insertEvent(convert(event))
+            activeDay.postValue(activeDay.value)
+        }
     }
 
      suspend fun getEvent(id : String) : LiveData<Event>{
          return convert(eventDao.get(id))
     }
 
+    suspend fun deleteEvent(id : Int){
+        withContext(Dispatchers.IO) {
+            eventDao.deleteById(id)
+            activeDay.postValue(activeDay.value)
+        }
+    }
+
     suspend fun getEventsByDay(date : Date){
         withContext(Dispatchers.IO) {
-            events.postValue(eventDao.getEventsByDay(date).map { convert(it) })
+            activeDay.postValue(date)
         }
     }
 
@@ -46,15 +60,13 @@ class EventRepository @Inject constructor(
     }
 
     private fun convertList(livedata : LiveData<List<EventEntity>>) : LiveData<List<Event>>{
-        return Transformations.switchMap(livedata) {
+        return Transformations.map(livedata) {
             val events : List<Event> = it.map { convert(it) }
-            val result: MutableLiveData<List<Event>> = MutableLiveData()
-            result.postValue(events)
-            result
+            events
         }
     }
 
-    private fun convert(event: Event) : EventEntity{
+    fun convert(event: Event) : EventEntity{
         if(event.id == null){
             return EventEntity(title = event.title!!, date = event.date!!, time = event.time!!, desc = event.desc)
         }else{
@@ -66,19 +78,4 @@ class EventRepository @Inject constructor(
     private fun convert(event: EventEntity) : Event{
         return Event(id = event.id, title = event.title, date = event.date, time = event.time, desc = event.desc)
     }
-//
-//    private fun dateTime(date: Date?, time: Date?): Date {
-//        val dateCal = Calendar.getInstance()
-//        val timeCal = Calendar.getInstance()
-//        val dateTimeCal = Calendar.getInstance()
-//        dateCal.time = date!!
-//        timeCal.time = time!!
-//        dateTimeCal[Calendar.DAY_OF_MONTH] = dateCal[Calendar.DAY_OF_MONTH]
-//        dateTimeCal[Calendar.MONTH] = dateCal[Calendar.MONTH]
-//        dateTimeCal[Calendar.YEAR] = dateCal[Calendar.YEAR]
-//        dateTimeCal[Calendar.HOUR] = timeCal[Calendar.HOUR]
-//        dateTimeCal[Calendar.MINUTE] = timeCal[Calendar.MINUTE]
-//        dateTimeCal[Calendar.SECOND] = timeCal[Calendar.SECOND]
-//        return dateTimeCal.time
-//    }
 }

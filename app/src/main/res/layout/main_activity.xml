@@ -25,7 +25,9 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:contentDescription="Add"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorPrimary"
+        android:outlineAmbientShadowColor="@color/colorWhite"
+        app:tint="@color/colorWhite"
         android:src="@drawable/ic_add_24px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

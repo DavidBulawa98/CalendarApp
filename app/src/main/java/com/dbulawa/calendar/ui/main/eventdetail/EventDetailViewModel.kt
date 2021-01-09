@@ -34,4 +34,5 @@ class EventDetailViewModel @ViewModelInject constructor(
                 }
             }
     }
+
 }

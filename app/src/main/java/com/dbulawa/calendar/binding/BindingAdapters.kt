@@ -5,12 +5,9 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.text.Editable
 import android.text.TextUtils
-import android.view.View.OnFocusChangeListener
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
-import com.google.android.material.textfield.TextInputLayout
-import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -62,9 +59,11 @@ class BindingAdapters {
             val calendar = Calendar.getInstance();
             val sdformat = SimpleDateFormat.getDateInstance()
             val dateFromListener = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, monthOfYear)
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                calendar.set(year, monthOfYear, dayOfMonth);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
                 textView.setText(sdformat.format(calendar.time))
             }
 

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.dbulawa.calendar.R
-import com.dbulawa.calendar.adapter.DayOfTheWeekAdapter
 import com.dbulawa.calendar.authorization.GoogleAuthService
 import com.dbulawa.calendar.databinding.CreateEventActivityBinding
 import com.google.android.material.snackbar.Snackbar
@@ -17,7 +16,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class EventDetailActivity : AppCompatActivity() {
     @Inject lateinit var googleAuthService: GoogleAuthService
-    @Inject lateinit var dayOfTheWeekAdapter: DayOfTheWeekAdapter
     lateinit var viewModel: EventDetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +35,7 @@ class EventDetailActivity : AppCompatActivity() {
         viewModel.success.observe(this, Observer {
             if(it){
                 snackbar = Snackbar.make(view,"Sucessfull", Snackbar.LENGTH_LONG)
+                this.finish()
 
             }else{
                 snackbar = Snackbar.make(view,"Error", Snackbar.LENGTH_LONG)

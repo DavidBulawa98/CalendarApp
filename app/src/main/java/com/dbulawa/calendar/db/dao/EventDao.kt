@@ -12,7 +12,7 @@ interface EventDao {
     fun get(id : String) : LiveData<EventEntity>
 
     @Query("SELECT * FROM event WHERE date=:date")
-    fun getEventsByDay(date: Date): List<EventEntity>
+    fun getEventsByDay(date: Date): LiveData<List<EventEntity>>
 
     @Query("SELECT * FROM event")
     fun getEvents(): LiveData<List<EventEntity>>
@@ -25,4 +25,7 @@ interface EventDao {
 
     @Delete
     suspend fun deleteEvent(eventEntity: EventEntity)
+
+    @Query("DELETE FROM event WHERE id = :id")
+    suspend fun deleteById(id: Int)
 }

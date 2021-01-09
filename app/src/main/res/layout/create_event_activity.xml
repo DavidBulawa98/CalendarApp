@@ -10,7 +10,6 @@
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorLight">
@@ -106,16 +105,14 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
         <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="60dp"
             style="@style/AppTheme.Button"
             android:text="Create"
+            android:background="@color/colorWhite"
             android:onClick="@{() -> viewModel.insertEvent()}"
+            android:paddingVertical="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

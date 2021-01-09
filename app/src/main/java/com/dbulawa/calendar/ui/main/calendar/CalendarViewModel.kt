@@ -17,18 +17,30 @@ class CalendarViewModel @ViewModelInject constructor(
     @Assisted private val stateHandle: SavedStateHandle,
     var eventRepository: EventRepository
 ): ViewModel() {
-    var activeDay : MutableLiveData<CalendarDay?> = MutableLiveData();
-    var events : LiveData<List<Event>> = eventRepository.events
-
-    suspend fun getEventsByActiveDay(date: Date) : LiveData<List<Event>>{
-        viewModelScope.launch {
-            eventRepository.getEventsByDay(date)
+    var activeDay : MutableLiveData<CalendarDay?> = MutableLiveData()
+    var events : LiveData<List<Event>> = Transformations.switchMap(activeDay) {
+        it?.let {
+            val date: Date = Date.from(it.date.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            viewModelScope.launch {
+                eventRepository.getEventsByDay(date)
+            }
         }
-        return events
+        eventRepository.events
     }
+
 
     fun getAll() : List<Event>{
         return eventRepository.getAll()
+    }
+
+
+    fun deleteEvent(id: Int){
+        viewModelScope.launch {
+            try {
+                eventRepository.deleteEvent(id)
+            }catch (ex : KotlinNullPointerException){
+            }
+        }
     }
 
 }

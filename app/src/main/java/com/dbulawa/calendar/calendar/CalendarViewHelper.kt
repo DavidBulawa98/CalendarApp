@@ -3,13 +3,16 @@ package com.dbulawa.calendar.calendar
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dbulawa.calendar.R
 import com.dbulawa.calendar.ui.main.calendar.CalendarViewModel
 import com.kizitonwose.calendarview.CalendarView
 import com.kizitonwose.calendarview.model.CalendarDay
+import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.ui.DayBinder
+import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import java.time.YearMonth
 import java.time.temporal.WeekFields
 import java.util.*
@@ -28,7 +31,7 @@ class CalendarViewHelper @Inject constructor(
     val firstMonth = currentMonth.minusMonths(10)
     val lastMonth = currentMonth.plusMonths(10)
     val firstDayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
-    var selectedDayView: View? = null;
+    var selectedDayView: DayViewContainer? = null;
 
 
     fun setupCalendarView(calendarView: CalendarView, monthTextView : TextView) {
@@ -43,16 +46,16 @@ class CalendarViewHelper @Inject constructor(
                 container.view.setOnClickListener {
                     if(viewModel.activeDay.value == null){
                         viewModel.activeDay.postValue(day)
-                        selectedDayView = container.view;
-                        container.view.setBackgroundColor(fragment.resources.getColor(R.color.colorAccent, fragment.activity?.theme));
+                        selectedDayView = container;
+                        changeDayViewSelected(container)
                     }else if(viewModel.activeDay.value!! == day){
                         viewModel.activeDay.postValue(null)
-                        container.view.setBackgroundColor(fragment.resources.getColor(R.color.colorWhite, fragment.activity?.theme));
+                        changeDayViewUnselected(container)
                     }else{
-                        selectedDayView?.setBackgroundColor(fragment.resources.getColor(R.color.colorWhite, fragment.activity?.theme));
-                        selectedDayView = container.view;
+                        changeDayViewUnselected(selectedDayView)
                         viewModel.activeDay.postValue(day)
-                        container.view.setBackgroundColor(fragment.resources.getColor(R.color.colorAccent, fragment.activity?.theme));
+                        selectedDayView = container;
+                        changeDayViewSelected(container)
                     }
                 }
             }
@@ -61,9 +64,21 @@ class CalendarViewHelper @Inject constructor(
             monthTextView.text = monthsOfTheYear[it.month - 1] + "  " +  it.year //Array indexed from 0, but months begin with 1
         }
 
+
         viewModel.activeDay.observe(fragment, androidx.lifecycle.Observer {
             Log.i("DAY_SELECTED", "User selected ${it.toString()}")
         })
 
+    }
+
+    private fun changeDayViewSelected(container: DayViewContainer?){
+        container?.view?.background = fragment.resources.getDrawable(R.drawable.backgroud_day, fragment.activity?.theme)
+        container?.dayTextView?.setTextColor(fragment.resources.getColor(R.color.colorWhite, fragment.activity?.theme))
+    }
+
+    private fun changeDayViewUnselected(container: DayViewContainer?){
+        container?.view?.background = null
+        container?.view?.setBackgroundColor(fragment.resources.getColor(R.color.colorLight, fragment.activity?.theme));
+        container?.dayTextView?.setTextColor(fragment.resources.getColor(R.color.colorDark, fragment.activity?.theme))
     }
 }
