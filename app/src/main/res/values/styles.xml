@@ -6,8 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">Nunito</item>
     </style>
 
+    <style name="SplashScreenTheme" parent = "Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_layer</item>
+    </style>
 
     <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:paddingHorizontal">20dp</item>

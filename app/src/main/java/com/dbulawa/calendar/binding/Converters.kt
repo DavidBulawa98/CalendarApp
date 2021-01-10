@@ -23,7 +23,7 @@ class Converters {
         @JvmStatic
         @InverseMethod("timeToString")
         fun stringToTime(source: String?): Time? {
-            return source?.let {  Time.valueOf(it + ":00")}
+            return source?.let {  Time.valueOf("$it:00")}
         }
 
         @JvmStatic
