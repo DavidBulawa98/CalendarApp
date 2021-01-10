@@ -1,9 +1,10 @@
-package com.dbulawa.calendar
+package com.dbulawa.calendar.ui.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.dbulawa.calendar.R
 import com.dbulawa.calendar.ui.main.eventdetail.EventDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
