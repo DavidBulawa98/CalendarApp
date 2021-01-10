@@ -23,12 +23,12 @@ class Converters {
         @JvmStatic
         @InverseMethod("timeToString")
         fun stringToTime(source: String?): Time? {
-            return source?.let { Time.valueOf(it)}
+            return source?.let {  Time.valueOf(it + ":00")}
         }
 
         @JvmStatic
         fun timeToString(source: Time?): String? {
-            return source?.let { source.toString() }
+            return source?.let { SimpleDateFormat("HH:mm").format(it) }
         }
     }
 

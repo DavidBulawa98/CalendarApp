@@ -73,10 +73,21 @@ class BindingAdapters {
         private fun selectTime(textView: EditText){
             val calendar = Calendar.getInstance();
             val timeFromListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                textView.setText("$hourOfDay:$minute:00")
+                val hourStr = addZeroAtStart(hourOfDay)
+                val minuteStr = addZeroAtStart(minute)
+                textView.setText("$hourStr:$minuteStr")
             }
 
             TimePickerDialog(textView.context, timeFromListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        }
+
+        private fun addZeroAtStart(int: Int) : String{
+            val sb = StringBuilder(int.toString())
+
+            if(sb.length == 1) {
+                sb.insert(0, "0")
+            }
+            return sb.toString()
         }
     }
 }

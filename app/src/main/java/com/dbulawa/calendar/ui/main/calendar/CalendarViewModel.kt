@@ -20,7 +20,7 @@ class CalendarViewModel @ViewModelInject constructor(
     var activeDay : MutableLiveData<CalendarDay?> = MutableLiveData()
     var events : LiveData<List<Event>> = Transformations.switchMap(activeDay) {
         it?.let {
-            val date: Date = Date.from(it.date.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            val date: Date = Date.from(it.date.atStartOfDay(ZoneId.systemDefault()).toInstant()) //Convert date to 00:00 time
             viewModelScope.launch {
                 eventRepository.getEventsByDay(date)
             }
@@ -29,12 +29,7 @@ class CalendarViewModel @ViewModelInject constructor(
     }
 
 
-    fun getAll() : List<Event>{
-        return eventRepository.getAll()
-    }
-
-
-    fun deleteEvent(id: Int){
+    fun deleteEvent(id: String){
         viewModelScope.launch {
             try {
                 eventRepository.deleteEvent(id)

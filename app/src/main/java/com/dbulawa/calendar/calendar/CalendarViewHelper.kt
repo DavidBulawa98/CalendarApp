@@ -78,7 +78,7 @@ class CalendarViewHelper @Inject constructor(
 
     private fun changeDayViewUnselected(container: DayViewContainer?){
         container?.view?.background = null
-        container?.view?.setBackgroundColor(fragment.resources.getColor(R.color.colorLight, fragment.activity?.theme));
+        container?.view?.setBackgroundColor(fragment.resources.getColor(R.color.colorWhite, fragment.activity?.theme));
         container?.dayTextView?.setTextColor(fragment.resources.getColor(R.color.colorDark, fragment.activity?.theme))
     }
 }

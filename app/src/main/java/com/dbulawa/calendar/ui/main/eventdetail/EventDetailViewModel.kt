@@ -18,12 +18,6 @@ class EventDetailViewModel @ViewModelInject constructor(
     var success : MutableLiveData<Boolean> = MutableLiveData()
     var event : LiveData<Event>  = MutableLiveData<Event>().also { it.postValue(Event()) }
 
-    suspend fun getEvent(id: String) {
-        viewModelScope.launch {
-            event = eventRepository.getEvent(id)
-        }
-    }
-
     fun insertEvent(){
             viewModelScope.launch {
                 try {

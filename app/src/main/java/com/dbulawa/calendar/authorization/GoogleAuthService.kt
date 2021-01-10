@@ -1,6 +1,8 @@
 package com.dbulawa.calendar.authorization
 
 import android.app.Activity
+import android.app.AuthenticationRequiredException
+import android.net.wifi.hotspot2.pps.Credential
 import android.os.AsyncTask
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -12,7 +14,7 @@ import javax.inject.Inject
 
 
 class GoogleAuthService @Inject constructor(
-    val signInClient : GoogleSignInClient,
+    private val signInClient : GoogleSignInClient,
     private val activity: Activity
 ){
 
@@ -25,7 +27,7 @@ class GoogleAuthService @Inject constructor(
     }
 
 
-     fun handleSignInResult() {
+     fun handleSignInResult() : GoogleAccountCredential?{
         if (!GoogleSignIn.hasPermissions(
                 GoogleSignIn.getLastSignedInAccount(activity),
                 SCOPE_CALENDAR_EVENTS
@@ -38,26 +40,22 @@ class GoogleAuthService @Inject constructor(
                 SCOPE_CALENDAR_EVENTS
             )
         } else {
-           getToken()
+            return getToken()
         }
-    }
+        throw IllegalAccessException("Not authenticated")
+     }
 
-    fun getToken(){
+    private fun getToken() : GoogleAccountCredential?{
         val signedInAccount = GoogleSignIn.getLastSignedInAccount(activity)
 
-        if (signedInAccount != null && !signedInAccount.isExpired) {
-            val credential = GoogleAccountCredential.usingOAuth2(
-                activity.applicationContext,
-                Collections.singleton(
-                    SCOPE_CALENDAR_EVENTS_STRING
-                )
+        val credential = GoogleAccountCredential.usingOAuth2(
+            activity.applicationContext,
+            Collections.singleton(
+                SCOPE_CALENDAR_EVENTS_STRING
             )
-            credential.selectedAccount = signedInAccount.account
-            AsyncTask.execute {
-                Log.v("OAuthToken", credential.token)
-            }
-        }else{
-            activity.startActivityForResult(signInClient.signInIntent, RC_SIGN_IN)
-        }
+        )
+        credential.selectedAccount = signedInAccount!!.account
+
+        return credential
     }
 }

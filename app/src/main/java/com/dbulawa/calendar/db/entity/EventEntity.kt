@@ -4,15 +4,16 @@ import androidx.databinding.Bindable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.sql.Time
-import java.util.Date
+import java.util.*
 
 @Entity(tableName = "event")
 data class EventEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    @PrimaryKey
+    var id: String ,
     var date : Date,
     var time : Time,
     var title: String,
-    var desc: String?
+    var desc: String?,
+    var sended: Boolean
 ) {
 }

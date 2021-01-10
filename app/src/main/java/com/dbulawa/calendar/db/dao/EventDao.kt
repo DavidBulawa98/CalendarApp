@@ -8,24 +8,24 @@ import java.util.*
 @Dao
 interface EventDao {
 
-    @Query("SELECT * from event WHERE id=:id ")
-    fun get(id : String) : LiveData<EventEntity>
-
-    @Query("SELECT * FROM event WHERE date=:date")
+    @Query("SELECT * FROM event WHERE date=:date order by time ASC")
     fun getEventsByDay(date: Date): LiveData<List<EventEntity>>
 
-    @Query("SELECT * FROM event")
-    fun getEvents(): LiveData<List<EventEntity>>
-
-    @Query("SELECT * FROM event")
-    fun getEventsNoLive(): List<EventEntity>
+    @Query("SELECT * FROM event WHERE date=:date AND sended = '0'")
+    fun getEventsByDayNotSended(date: Date): List<EventEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(eventEntity: EventEntity)
 
-    @Delete
-    suspend fun deleteEvent(eventEntity: EventEntity)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(eventEntity: EventEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllEvents(eventEntity: List<EventEntity>)
 
     @Query("DELETE FROM event WHERE id = :id")
-    suspend fun deleteById(id: Int)
+    suspend fun deleteById(id: String)
+
+    @Query("DELETE FROM event WHERE id NOT IN(:ids) AND sended = 'true'")
+    suspend fun deleteByIdsNotIn(ids: List<String>)
 }
